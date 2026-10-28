@@ -1,0 +1,8 @@
+{
+  "name": "brooklynpizza",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./artifacts/brooklyn-pizza-ph/dist/public",
+    "not_found_handling": "single-page-application"
+  }
+}
