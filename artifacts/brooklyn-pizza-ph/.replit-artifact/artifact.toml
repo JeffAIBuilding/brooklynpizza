@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Brooklyn Pizza PH"
+description = "A customer-facing website for Brooklyn Pizza PH in Iloilo, helping people explore the pizzeria and place orders."
+version = "1.0.0"
+id = "artifacts/brooklyn-pizza-ph"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23051
+
+[services.development]
+run = "pnpm --filter @workspace/brooklyn-pizza-ph run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/brooklyn-pizza-ph", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/brooklyn-pizza-ph/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23051"
+BASE_PATH = "/"
