@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { MotionConfig, motion, useScroll, useTransform } from 'framer-motion';
 import { Phone, MapPin, Clock, Menu as MenuIcon, X, ArrowUpRight, ArrowDown } from 'lucide-react';
 
 const BASE = import.meta.env.BASE_URL;
@@ -7,6 +7,7 @@ const img = (p: string) => `${BASE}images/${p}`;
 const LOGO = `${BASE}brooklyn-logo.png`;
 const TEL = 'tel:+639303115882';
 const PHONE = '0930-311-5882';
+const ORDER_URL = 'https://utak.io/store/brooklyn_pizza';
 const MAPS =
   'https://www.google.com/maps/search/?api=1&query=' +
   encodeURIComponent('Brooklyn Pizza K-Town Megaworld Boulevard Mandurriao Iloilo City');
@@ -44,17 +45,18 @@ function useManilaOpen() {
   return s;
 }
 
-function CallButton({ testId, className = '', label = 'Call to order' }: { testId: string; className?: string; label?: string }) {
+function OrderButton({ testId, className = '', label = 'Order online' }: { testId: string; className?: string; label?: string }) {
   return (
     <a
-      href={TEL}
+      href={ORDER_URL}
+      target="_blank"
+      rel="noopener noreferrer"
       data-testid={testId}
-      aria-label={`${label}: ${PHONE}`}
+      aria-label={`${label} with Utak, opens in a new tab`}
       className={`press hard-shadow inline-flex items-center gap-3 rounded-full border-[3px] border-ink bg-sauce px-6 py-3.5 font-display text-xl uppercase text-paper ${className}`}
     >
-      <Phone className="h-5 w-5" strokeWidth={2.5} aria-hidden />
+      <ArrowUpRight className="h-5 w-5" strokeWidth={2.5} aria-hidden />
       <span>{label}</span>
-      <span className="hidden font-mono text-sm normal-case tracking-tight sm:inline">{PHONE}</span>
     </a>
   );
 }
@@ -90,8 +92,8 @@ function Header() {
             data-testid="img-logo-header"
             className="h-12 w-12 shrink-0 object-contain mix-blend-multiply"
           />
-          <span className="font-display text-2xl uppercase leading-none text-ink">
-            Brooklyn<span className="text-sauce"> Pizza</span> <span className="font-mono text-xs align-top">PH</span>
+          <span className="whitespace-nowrap font-display text-xl uppercase leading-none text-ink sm:text-2xl">
+            Brooklyn<span className="text-sauce"> Pizza</span> <span className="font-mono text-[9px] align-top sm:text-xs">PH</span>
           </span>
         </a>
         <nav aria-label="Primary" className="hidden lg:block">
@@ -106,13 +108,10 @@ function Header() {
           </ul>
         </nav>
         <div className="flex items-center gap-2">
-          <a
-            href={TEL}
-            data-testid="button-header-call"
-            className="press hard-shadow-sm hidden items-center gap-2 rounded-full border-[3px] border-ink bg-sauce px-4 py-2 font-display uppercase text-paper sm:inline-flex"
-          >
+          <a href={TEL} data-testid="link-header-phone" aria-label={`Call Brooklyn Pizza at ${PHONE}`} className="hidden items-center gap-2 rounded-full px-3 py-2 font-mono text-xs font-bold text-ink transition-colors hover:text-sauce sm:inline-flex">
             <Phone className="h-4 w-4" aria-hidden /> {PHONE}
           </a>
+          <OrderButton testId="button-header-order" label="Order" className="!px-4 !py-2 !text-base" />
           <button
             type="button"
             data-testid="button-mobile-menu"
@@ -178,14 +177,14 @@ function Hero() {
             </motion.span>
           </h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mt-6 max-w-md text-lg leading-relaxed text-ink/80">
-            Big, thin, foldable slices out of K-Town on Megaworld Boulevard. Open from mid-morning to the small hours. One phone call between you and a whole pie.
+            Big, thin, foldable slices in K-Town on Megaworld Boulevard. Brooklyn-style pizza, right here in Iloilo. A few taps put your pie in motion.
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-8 flex flex-wrap items-center gap-4">
-            <CallButton testId="button-hero-call" />
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <OrderButton testId="button-hero-order" label="Order your pie" />
             <a href="#menu" data-testid="link-hero-menu" className="inline-flex items-center gap-2 font-mono text-sm font-bold uppercase underline decoration-2 underline-offset-4 hover:text-sauce">
               See the pies <ArrowDown className="h-4 w-4" aria-hidden />
             </a>
-          </motion.div>
+          </div>
         </div>
 
         <div className="relative mx-auto aspect-square w-full max-w-[560px]">
@@ -255,7 +254,7 @@ function PieMenu() {
             </h2>
           </div>
           <p className="max-w-sm text-paper/70">
-            The pies people talk about at Brooklyn. Toppings, sizes and prices change, so call the shop for today's menu and current pricing.
+            The pies people talk about at Brooklyn. Toppings, sizes and prices change, so check the live ordering menu for today's selection and current pricing.
           </p>
         </motion.div>
 
@@ -310,9 +309,9 @@ function PieMenu() {
                 <h3 className="font-display text-5xl uppercase" data-testid="text-pie-name">{pie.name}</h3>
                 <p className="mt-3 text-lg text-ink/75">{pie.note}</p>
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t-2 border-dashed border-ink/30 pt-5">
-                  <span className="font-mono text-xs uppercase text-ink/60">Price &amp; sizes: call for current menu</span>
-                  <a href={TEL} data-testid={`button-order-${pie.id}`} className="press hard-shadow-sm inline-flex items-center gap-2 rounded-full border-[3px] border-ink bg-sauce px-5 py-2.5 font-display uppercase text-paper">
-                    <Phone className="h-4 w-4" aria-hidden /> Order this pie
+                  <span className="font-mono text-xs uppercase text-ink/60">Price &amp; sizes: see online menu</span>
+                  <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" aria-label={`Order ${pie.name} with Utak, opens in a new tab`} data-testid={`button-order-${pie.id}`} className="press hard-shadow-sm inline-flex items-center gap-2 rounded-full border-[3px] border-ink bg-sauce px-5 py-2.5 font-display uppercase text-paper">
+                    <ArrowUpRight className="h-4 w-4" aria-hidden /> Order this pie
                   </a>
                 </div>
               </div>
@@ -375,7 +374,7 @@ function More() {
               Pasta.<br />Wings.<br /><span className="text-sauce">Also pizza.</span>
             </h2>
             <p className="mt-6 max-w-sm text-lg text-ink/75">
-              Rounding out the table for the friend who swears they're not in a pizza mood. Ask what's on today when you call.
+              Rounding out the table for the friend who swears they're not in a pizza mood. Find the current selection and details on the ordering menu.
             </p>
           </motion.div>
           <motion.figure {...reveal} className="relative overflow-hidden rounded-[2rem] border-[4px] border-ink md:col-span-7 hard-shadow">
@@ -388,7 +387,7 @@ function More() {
             { id: 'pasta', t: 'Pasta', d: 'Comfort in a bowl, from the same kitchen as the pies.' },
             { id: 'wings', t: 'Wings', d: 'Built for sharing, or for not sharing. Your call.' },
           ].map((c) => (
-            <motion.a key={c.id} {...reveal} href={TEL} data-testid={`card-side-${c.id}`} className="press group flex items-center justify-between rounded-3xl border-[3px] border-ink bg-card p-6 hard-shadow-sm md:p-8">
+            <motion.a key={c.id} {...reveal} href={ORDER_URL} target="_blank" rel="noopener noreferrer" data-testid={`card-side-${c.id}`} className="press group flex items-center justify-between rounded-3xl border-[3px] border-ink bg-card p-6 hard-shadow-sm md:p-8">
               <div>
                 <h3 className="font-display text-5xl uppercase">{c.t}</h3>
                 <p className="mt-2 text-ink/70">{c.d}</p>
@@ -488,10 +487,10 @@ function FinalCta() {
           Hungry<br /><span className="text-sauce">yet?</span>
         </h2>
         <p className="mx-auto mt-6 max-w-md text-lg text-paper/70">
-          You scrolled all the way down. The pizza is a phone call away.
+          Your next Brooklyn-style slice is a few taps away. Ordering is handled by Utak.
         </p>
         <div className="mt-10 flex justify-center">
-          <CallButton testId="button-final-call" label="Call Brooklyn now" className="!border-paper text-2xl" />
+          <OrderButton testId="button-final-order" label="Order from Brooklyn" className="!border-paper text-2xl" />
         </div>
       </motion.div>
     </section>
@@ -527,14 +526,16 @@ function MobileBar() {
   return (
     <div className="fixed inset-x-3 bottom-3 z-50 md:hidden">
       <a
-        href={TEL}
-        data-testid="button-mobile-call"
+        href={ORDER_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-testid="button-mobile-order"
         className="flex items-center justify-between rounded-full border-[3px] border-ink bg-sauce px-5 py-3 text-paper hard-shadow-sm active:translate-y-0.5"
       >
         <span className="flex items-center gap-2 font-display text-xl uppercase">
-          <Phone className="h-5 w-5" aria-hidden /> Call to order
+          <ArrowUpRight className="h-5 w-5" aria-hidden /> Order online
         </span>
-        <span className="font-mono text-sm">{PHONE}</span>
+        <span className="font-mono text-xs uppercase">Via Utak</span>
       </a>
     </div>
   );
@@ -546,19 +547,21 @@ export default function Home() {
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[70] focus:rounded focus:bg-mustard focus:px-3 focus:py-2">
         Skip to content
       </a>
-      <Header />
-      <main id="main">
-        <Hero />
-        <Marquee />
-        <PieMenu />
-        <Fold />
-        <More />
-        <Hours />
-        <Visit />
-        <FinalCta />
-      </main>
-      <Footer />
-      <MobileBar />
+      <MotionConfig reducedMotion="user">
+        <Header />
+        <main id="main">
+          <Hero />
+          <Marquee />
+          <PieMenu />
+          <Fold />
+          <More />
+          <Hours />
+          <Visit />
+          <FinalCta />
+        </main>
+        <Footer />
+        <MobileBar />
+      </MotionConfig>
     </>
   );
 }
