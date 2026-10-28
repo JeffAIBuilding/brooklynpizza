@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { MotionConfig, motion, useScroll, useTransform } from 'framer-motion';
+import { MotionConfig, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { Phone, MapPin, Clock, Menu as MenuIcon, X, ArrowUpRight, ArrowDown } from 'lucide-react';
 
 const BASE = import.meta.env.BASE_URL;
 const img = (p: string) => `${BASE}images/${p}`;
 const LOGO = `${BASE}brooklyn-logo.png`;
+const OVEN_VIDEO = `${import.meta.env.BASE_URL}videos/oven-pizza.mp4`;
 const TEL = 'tel:+639303115882';
 const PHONE = '0930-311-5882';
 const ORDER_URL = 'https://utak.io/store/brooklyn_pizza';
@@ -151,6 +152,7 @@ function Hero() {
   const { scrollY } = useScroll();
   const rotate = useTransform(scrollY, [0, 800], [0, 50]);
   const status = useManilaOpen();
+  const prefersReducedMotion = useReducedMotion();
   return (
     <section id="top" aria-labelledby="hero-title" className="relative overflow-hidden bg-paper pt-24 md:pt-28">
       <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 pb-16 md:px-8 lg:grid-cols-[1.1fr_1fr] lg:pb-24">
@@ -196,14 +198,26 @@ function Hero() {
             transition={{ type: 'spring', stiffness: 80, damping: 14, delay: 0.2 }}
             className="absolute inset-0 overflow-hidden rounded-full border-[4px] border-ink hard-shadow"
           >
-            <img
-              src={img('hero-pizza.jpg')}
-              alt="A whole New York-style cheese pizza with a blistered thin crust, fresh from the oven"
-              width={1024}
-              height={1024}
-              data-testid="img-hero-pizza"
+            <video
+              autoPlay={prefersReducedMotion === false}
+              loop={prefersReducedMotion === false}
+              muted
+              playsInline
+              controls
+              preload="metadata"
+              poster={img('hero-pizza.jpg')}
+              aria-label="Brooklyn Pizza kitchen oven clip"
+              data-testid="video-hero-oven"
               className="h-full w-full object-cover"
-            />
+            >
+              <source src={OVEN_VIDEO} type="video/mp4" />
+              <img
+                src={img('hero-pizza.jpg')}
+                alt="A whole New York-style cheese pizza with a blistered thin crust, fresh from the oven"
+                width={1024}
+                height={1024}
+              />
+            </video>
           </motion.div>
           <motion.div
             initial={{ scale: 0, rotate: -30 }}
