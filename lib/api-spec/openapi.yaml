@@ -10,7 +10,51 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: franchise
+    description: Franchise inquiry operations
 paths:
+  /franchise-inquiries:
+    post:
+      operationId: submitFranchiseInquiry
+      tags: [franchise]
+      summary: Submit a franchise inquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FranchiseInquiryInput"
+      responses:
+        "200":
+          description: Inquiry email sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FranchiseInquirySent"
+        "400":
+          description: Invalid inquiry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "413":
+          description: Request body is too large
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "429":
+          description: Too many inquiries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "503":
+          description: Email delivery is temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
   /healthz:
     get:
       operationId: healthCheck
@@ -26,6 +70,56 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    FranchiseInquiryInput:
+      type: object
+      additionalProperties: false
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 80
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 80
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        capital:
+          type: string
+          enum:
+            - 0–500k
+            - 501k–1 million
+            - 1 million–2+ million
+        location:
+          type: string
+          minLength: 1
+          maxLength: 160
+        website:
+          type: string
+          maxLength: 200
+          description: Hidden anti-spam field; leave empty.
+      required:
+        - firstName
+        - lastName
+        - email
+        - capital
+        - location
+    FranchiseInquirySent:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
     HealthStatus:
       type: object
       properties:

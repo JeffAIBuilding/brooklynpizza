@@ -1,9 +1,29 @@
 {
   "name": "brooklynpizza",
   "compatibility_date": "2026-10-01",
+  "main": "./artifacts/brooklyn-pizza-ph/src/worker/index.ts",
   "build": { "command": "pnpm --filter @workspace/brooklyn-pizza-ph run build" },
   "assets": {
     "directory": "./artifacts/brooklyn-pizza-ph/dist/public",
-    "not_found_handling": "single-page-application"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
+  },
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_destination_addresses": ["jefflago@hotmail.com"],
+      "allowed_sender_addresses": ["franchise@brooklynpizza.ph"]
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "FRANCHISE_RATE_LIMITER",
+      "namespace_id": "20261028",
+      "simple": {
+        "limit": 5,
+        "period": 60
+      }
+    }
+  ]
 }
