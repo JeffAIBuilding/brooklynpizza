@@ -201,16 +201,6 @@ function Hero() {
       <section id="top" aria-labelledby="hero-title" className="relative overflow-hidden bg-paper pt-32 md:pt-28">
       <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 pb-16 md:px-8 lg:grid-cols-[1.1fr_1fr] lg:pb-24">
         <div className="relative z-10">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            data-testid="status-open"
-            className="mb-6 inline-flex items-center gap-2 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-xs font-bold uppercase"
-          >
-            <span className={`h-2.5 w-2.5 rounded-full ${status.open ? 'bg-basil animate-pulse' : 'bg-sauce'}`} aria-hidden />
-            {status.open ? 'Ovens on' : 'Back at 10 AM'} &middot; Iloilo {status.time}
-          </motion.p>
           <h1 id="hero-title" className="font-display uppercase leading-[0.86] text-ink">
             <motion.span initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.05 }} className="block text-[17vw] sm:text-[13vw] lg:text-[8.5rem]">
               New York
