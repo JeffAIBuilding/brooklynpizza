@@ -8,6 +8,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { franchiseInquirySchema, type FranchiseInquiryValues } from '@/lib/franchise-inquiry';
+import PolicyLinks from '@/components/policy-links';
 
 const BASE = import.meta.env.BASE_URL;
 const img = (p: string) => `${BASE}images/${p}`;
@@ -663,11 +664,15 @@ function Footer() {
               className="h-full w-full object-contain"
             />
           </span>
-          <p>Brooklyn Pizza PH &middot; The Brooklyn NY Style Pizza</p>
         </div>
-        <p>K-Town, Megaworld Blvd, Mandurriao, Iloilo City</p>
+        <div className="text-paper/80">
+          <PolicyLinks stacked />
+        </div>
         <p>Menu and prices subject to change &middot; Call to confirm</p>
       </div>
+      <p className="mx-auto mt-8 max-w-7xl px-4 text-center text-sm md:px-8">
+        Power By Brooklyn Pizza
+      </p>
     </footer>
   );
 }

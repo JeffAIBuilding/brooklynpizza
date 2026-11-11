@@ -14,6 +14,8 @@ import {
 const queryClient = new QueryClient();
 
 import Home from '@/pages/home';
+import PolicyPage from '@/pages/policy';
+import ContactPage from '@/pages/contact';
 
 function Router() {
   return (
@@ -22,6 +24,10 @@ function Router() {
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/terms-and-conditions"><PolicyPage policy="terms" /></Route>
+        <Route path="/privacy-policy"><PolicyPage policy="privacy" /></Route>
+        <Route path="/return-and-refund-policy"><PolicyPage policy="refunds" /></Route>
+        <Route path="/contact-us" component={ContactPage} />
         <Route component={NotFound} />
       </Switch>
     </RoutedErrorBoundary>
