@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { Link } from 'wouter';
 import PolicyLinks from '@/components/policy-links';
-
-const MAPS_URL = 'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent('Brooklyn Pizza K-Town Megaworld Boulevard Mandurriao Iloilo City');
+import { SHOP_ADDRESS, SHOP_MAPS_URL } from '@/lib/location';
 
 export default function ContactPage() {
   useEffect(() => {
     const previousTitle = document.title;
     document.title = 'Contact Us | Brooklyn Pizza';
-    const description = 'Contact Brooklyn Pizza at K-Town, Megaworld Boulevard, Mandurriao, Iloilo City. Call 033 338 4417.';
+    const description = `Contact Brooklyn Pizza at ${SHOP_ADDRESS}. Call 033 338 4417.`;
     const updates = [
       ['meta[name="description"]', description],
       ['meta[property="og:title"]', 'Contact Us | Brooklyn Pizza'],
@@ -47,10 +45,9 @@ export default function ContactPage() {
           <section aria-labelledby="contact-address">
             <h2 id="contact-address" className="text-xl font-bold">Visit Brooklyn Pizza</h2>
             <address className="mt-3 not-italic text-base leading-8 text-ink/80">
-              Ground Floor, K-Town, Megaworld Boulevard<br />
-              Mandurriao, Iloilo City 5000
+              {SHOP_ADDRESS}
             </address>
-            <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold underline underline-offset-4">
+            <a href={SHOP_MAPS_URL} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold underline underline-offset-4">
               Get directions
             </a>
           </section>

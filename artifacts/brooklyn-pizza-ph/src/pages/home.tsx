@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { franchiseInquirySchema, type FranchiseInquiryValues } from '@/lib/franchise-inquiry';
 import PolicyLinks from '@/components/policy-links';
+import { SHOP_ADDRESS, SHOP_MAPS_URL } from '@/lib/location';
 
 const BASE = import.meta.env.BASE_URL;
 const img = (p: string) => `${BASE}images/${p}`;
@@ -19,9 +20,6 @@ const OVEN_SHOWCASE_POSTER = `${BASE}videos/oven-showcase-poster.webp`;
 const TEL = 'tel:+63333384417';
 const PHONE = '033 338 4417';
 const ORDER_URL = 'https://utak.io/store/brooklyn_pizza';
-const MAPS =
-  'https://www.google.com/maps/search/?api=1&query=' +
-  encodeURIComponent('Brooklyn Pizza K-Town Megaworld Boulevard Mandurriao Iloilo City');
 
 const NAV = [
   { id: 'menu', label: 'The Pies' },
@@ -215,7 +213,7 @@ function Hero() {
           </h1>
           <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="max-w-md flex-1 text-lg leading-relaxed text-ink/80">
-              Big, thin, foldable slices in K-Town on Megaworld Boulevard. Brooklyn-style pizza, right here in Iloilo. A few taps put your pie in motion.
+              Big, thin, foldable slices at Festive Walk Parade 2B, Iloilo Business Park. Brooklyn-style pizza, right here in Iloilo. A few taps put your pie in motion.
             </motion.p>
             <div
               aria-label="Fresh dough made daily, 100% fresh mozzarella cheese, freshest ingredients"
@@ -429,19 +427,19 @@ function Visit() {
     <section id="visit" aria-labelledby="visit-title" className="scroll-mt-20 bg-paper py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <motion.h2 {...reveal} id="visit-title" className="mt-3 font-display text-6xl uppercase leading-[0.9] md:text-8xl">
-          K-Town.<br />Ground floor.
+          Find us at<br />Festive Walk.
         </motion.h2>
         <div className="mt-12 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
-          <motion.div {...reveal} className="checker relative min-h-[320px] overflow-hidden rounded-[2rem] border-[4px] border-ink hard-shadow">
+          <motion.div {...reveal} className="checker relative min-h-[420px] overflow-hidden rounded-[2rem] border-[4px] border-ink hard-shadow md:min-h-[460px]">
             <div className="absolute inset-6 flex flex-col justify-between rounded-2xl border-[3px] border-ink bg-paper p-6 md:inset-10 md:p-8">
               <MapPin className="h-12 w-12 text-sauce" strokeWidth={2.5} aria-hidden />
               <address className="not-italic" data-testid="text-address">
                 <span className="block font-display text-3xl uppercase leading-tight md:text-4xl">Brooklyn Pizza PH</span>
                 <span className="mt-2 block text-lg text-ink/80">
-                  Ground Floor, K-Town, Megaworld Boulevard<br />Mandurriao, Iloilo City 5000
+                  {SHOP_ADDRESS}
                 </span>
               </address>
-              <a href={MAPS} target="_blank" rel="noopener noreferrer" data-testid="link-directions" className="press hard-shadow-sm inline-flex w-fit items-center gap-2 rounded-full border-[3px] border-ink bg-mustard px-5 py-2.5 font-display uppercase">
+              <a href={SHOP_MAPS_URL} target="_blank" rel="noopener noreferrer" data-testid="link-directions" className="press hard-shadow-sm inline-flex w-fit items-center gap-2 rounded-full border-[3px] border-ink bg-mustard px-5 py-2.5 font-display uppercase">
                 Get directions <ArrowUpRight className="h-4 w-4" aria-hidden />
               </a>
             </div>
@@ -670,7 +668,12 @@ function Footer() {
         </div>
         <p>Menu and prices subject to change &middot; Call to confirm</p>
       </div>
-      <p className="mx-auto mt-8 max-w-7xl px-4 text-center text-sm md:px-8">
+      <address className="mx-auto mt-8 max-w-3xl px-4 text-center text-sm not-italic leading-relaxed text-paper/80 md:px-8">
+        <a href={SHOP_MAPS_URL} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+          {SHOP_ADDRESS}
+        </a>
+      </address>
+      <p className="mx-auto mt-4 max-w-7xl px-4 text-center text-sm md:px-8">
         Power By Brooklyn Pizza
       </p>
     </footer>
